@@ -73,6 +73,7 @@ fs.access(testsPath, (err) => {
          * {"filename": chmod (octal number)}
          */
         const filesToCopy = {
+            "/.github/workflows/cypress.yml": null,
             "/tests/bin/initialize.sh": 0o755,
             "/tests/bin/set-core-version.js": 0o755,
             "/tests/bin/wp-cli.yml": null,
