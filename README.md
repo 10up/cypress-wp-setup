@@ -41,8 +41,10 @@ npm run env
 
 `<version>` might be:
 - `latest` to use current WordPress release
-- `WordPress/WordPress#master` to use nightly build
-- `WordPress/WordPress#5.9` to specify a version
+- `master` to use nightly build
+- `5.9` to specify a version
+
+Numeric version should match existing tags [in WordPress repository](https://github.com/WordPress/WordPress/tags).
 
 ### Cypress
 
