@@ -14,6 +14,10 @@ if ( args[ 0 ] == 'latest' ) return;
 
 config.core = args[ 0 ];
 
+if ( ! config.core.match( /^WordPress\/WordPress\#/ ) ) {
+	config.core = "WordPress\/WordPress\#" + config.core;
+}
+
 try {
 	fs.writeFileSync( path, JSON.stringify( config ) );
 } catch ( err ) {
