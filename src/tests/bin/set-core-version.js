@@ -10,7 +10,12 @@ const args = process.argv.slice( 2 );
 
 if ( args.length == 0 ) return;
 
-if ( args[ 0 ] == 'latest' ) return;
+if ( args[ 0 ] == 'latest' ) {
+	if ( fs.existsSync( path ) ) {
+		fs.unlinkSync( path );
+	}
+	return;
+}
 
 config.core = args[ 0 ];
 

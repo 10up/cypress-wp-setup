@@ -55,3 +55,29 @@ npm run cypress:open
 ```
 
 The boilerplate includes a single basic example test.
+
+## GitHub Actions workflow
+
+The distribution includes the config for GitHub Actions in `.github/workflows/cypress.yml`. It supposed to install dependencies, run wp-env and perform tests.
+
+You can specify WordPress versions to test against in the matrix:
+
+```yml
+strategy:
+  matrix:
+    core:
+      - {name: 'WP latest', version: 'latest'}
+      - {name: 'WP minimum', version: 'WordPress/WordPress#4.9'}
+      - {name: 'WP trunk', version: 'WordPress/WordPress#master'}
+```
+
+The job includes 2 optional steps, you can update them and make required (removing `continue-on-error` flag):
+
+```yml
+- name: Composer (optional)
+  run: composer install
+  continue-on-error: true
+- name: Build (optional)
+  run: npm run build
+  continue-on-error: true
+```
