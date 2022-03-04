@@ -27,7 +27,7 @@ npm.load({ "save-dev": true }, (err) => {
         console.error(err);
         process.exit(1);
     }
-    npm.commands.install(["cypress", "@wordpress/env"]);
+    npm.commands.install(["cypress", "@wordpress/env", "10up/cypress-wp-utils#build"]);
 });
 
 const scripts = {
