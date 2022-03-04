@@ -1,5 +1,5 @@
 {
-  "name": "cypress-wp-setup",
+  "name": "@10up/cypress-wp-setup",
   "version": "0.1.0",
   "description": "Set up Cypress tests for WordPress",
   "main": "index.js",
