@@ -1,0 +1,30 @@
+name: Test Setup
+
+on:
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+      - trunk
+
+jobs:
+  test:
+    name: ${{ matrix.core.name }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        core:
+          - { name: "WP latest", version: "latest" }
+          - { name: "WP 4.9", version: "4.9" }
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run test
+        run: ./tests/run-test.sh
+        env:
+          WORDPRESS_VERSION: ${{ matrix.core.version }}
