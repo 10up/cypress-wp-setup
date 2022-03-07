@@ -15,123 +15,122 @@ const testsCypressPath = destPath.concat(cypressDir);
 
 // Check if NPM is initialized
 try {
-    fs.accessSync(destPath.concat("/package.json"));
+  fs.accessSync(destPath.concat("/package.json"));
 } catch (err) {
-    console.error("package.json does not exist. Please run npm init first.");
-    process.exit(1);
+  console.error("package.json does not exist. Please run npm init first.");
+  process.exit(1);
 }
 
 // Install Cypress and wp-env.
 npm.load({ "save-dev": true }, (err) => {
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
-    npm.commands.install(["cypress", "@wordpress/env", "10up/cypress-wp-utils#build"]);
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  npm.commands.install([
+    "cypress",
+    "@wordpress/env",
+    "10up/cypress-wp-utils#build",
+  ]);
 });
 
 const scripts = {
-    "cypress:open": "cypress open --config-file tests/cypress/config.json",
-    "cypress:run": "cypress run --config-file tests/cypress/config.json",
-    "env": "wp-env",
-    "env:start": "wp-env start",
-    "env:stop": "wp-env stop",
-    "postenv:start": "./tests/bin/initialize.sh",
+  "cypress:open": "cypress open --config-file tests/cypress/config.json",
+  "cypress:run": "cypress run --config-file tests/cypress/config.json",
+  "env": "wp-env",
+  "env:start": "wp-env start",
+  "env:stop": "wp-env stop",
+  "postenv:start": "./tests/bin/initialize.sh",
 };
 
 // Add scripts to package.json
 Object.keys(scripts).forEach((k, _) => {
-    try {
-        npmAddScript({
-            key: k,
-            value: scripts[k],
-        });
-    } catch (err) {
-        console.error(err);
-    }
+  try {
+    npmAddScript({
+      key: k,
+      value: scripts[k],
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }, scripts);
 
 // Create /tests directory or use existing one.
 fs.access(testsPath, (err) => {
+  if (err) {
+    console.log("./tests directory does not exist, creating it.");
+    fs.mkdir(testsPath);
+  } else {
+    console.log("./tests directory already exists.");
+  }
+
+  fs.access(testsBinPath, (err) => {
     if (err) {
-        console.log("./tests directory does not exist, creating it.");
-        fs.mkdir(testsPath);
+      console.log("./tests/bin directory does not exist, creating it.");
+      fs.mkdir(testsBinPath);
     } else {
-        console.log("./tests directory already exists.");
+      console.log("./tests/bin directory already exists.");
     }
 
-    fs.access(testsBinPath, (err) => {
+    /**
+     * Files to copy from src to dest
+     * {"filename": chmod (octal number)}
+     */
+    const filesToCopy = {
+      "/.github/workflows/cypress.yml": null,
+      "/tests/bin/initialize.sh": 0o755,
+      "/tests/bin/set-core-version.js": 0o755,
+      "/tests/bin/wp-cli.yml": null,
+      "/.wp-env.json": null,
+    };
+
+    Object.keys(filesToCopy).forEach((element, _) => {
+      const source = sourcePath.concat(element);
+      const dest = destPath.concat(element);
+      const chmod = filesToCopy[element];
+
+      fs.access(dest, (err) => {
         if (err) {
-            console.log("./tests/bin directory does not exist, creating it.");
-            fs.mkdir(testsBinPath);
-        } else {
-            console.log("./tests/bin directory already exists.");
-        }
+          // Copy file if not exist.
+          fs.copy(source, dest, (err) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log("." + element.concat(" created."));
 
-        /**
-         * Files to copy from src to dest
-         * {"filename": chmod (octal number)}
-         */
-        const filesToCopy = {
-            "/.github/workflows/cypress.yml": null,
-            "/tests/bin/initialize.sh": 0o755,
-            "/tests/bin/set-core-version.js": 0o755,
-            "/tests/bin/wp-cli.yml": null,
-            "/.wp-env.json": null,
-        };
-
-        Object.keys(filesToCopy).forEach((element, _) => {
-            const source = sourcePath.concat(element);
-            const dest = destPath.concat(element);
-            const chmod = filesToCopy[element];
-
-            fs.access(dest, (err) => {
-                if (err) {
-                    // Copy file if not exist.
-                    fs.copy(source, dest, (err) => {
-                        if (err) {
-                            console.error(err);
-                        } else {
-                            console.log("." + element.concat(" created."));
-
-                            // Optionally set chmod.
-                            if (null !== chmod) {
-                                fs.chmod(dest, chmod, (err) => {
-                                    if (err) {
-                                        console.error(err);
-                                    } else {
-                                        console.log(
-                                            "chmod " +
-                                                chmod.toString(8) +
-                                                " ." +
-                                                element
-                                        );
-                                    }
-                                });
-                            }
-                        }
-                    });
-                } else {
-                    console.log("." + element.concat(" exists, skipping."));
-                }
-            });
-        }, filesToCopy);
-    });
-
-    // Copy cypress example test if no tests exist yet.
-    fs.access(testsCypressPath, (err) => {
-        if (err) {
-            fs.copy(sourcePath.concat(cypressDir), testsCypressPath)
-                .then(() => {
-                    console.log("Copied test example to ./tests/cypress");
-                })
-                .catch((err) => {
+              // Optionally set chmod.
+              if (null !== chmod) {
+                fs.chmod(dest, chmod, (err) => {
+                  if (err) {
                     console.error(err);
+                  } else {
+                    console.log("chmod " + chmod.toString(8) + " ." + element);
+                  }
                 });
+              }
+            }
+          });
         } else {
-            console.log(
-                "./tests/cypress already exists. Skipping copy test example."
-            );
+          console.log("." + element.concat(" exists, skipping."));
         }
-    });
+      });
+    }, filesToCopy);
+  });
+
+  // Copy cypress example test if no tests exist yet.
+  fs.access(testsCypressPath, (err) => {
+    if (err) {
+      fs.copy(sourcePath.concat(cypressDir), testsCypressPath)
+        .then(() => {
+          console.log("Copied test example to ./tests/cypress");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      console.log(
+        "./tests/cypress already exists. Skipping copy test example."
+      );
+    }
+  });
 });
