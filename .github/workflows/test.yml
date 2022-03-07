@@ -18,7 +18,8 @@ jobs:
       matrix:
         core:
           - { name: "WP latest", version: "latest" }
-          - { name: "WP 4.9", version: "4.9" }
+          - { name: "WP 4.9.19", version: "4.9.19" }
+          - { name: "WP master", version: "master" }
 
     steps:
       - name: Checkout
