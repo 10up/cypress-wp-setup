@@ -1,23 +1,38 @@
 #/bin/bash
 
-# install dependencies
-npm install
+if [[ -z "$WORDPRESS_VERSION" ]]; then
+	WORDPRESS_VERSION = 'latest'
+fi
+echo "ℹ︎ WORDPRESS_VERSION is $WORDPRESS_VERSION"
 
-# setup bin
+echo "ℹ︎ Installing dependencies"
+npm install --silent
+
+echo "ℹ︎ Setting up cypress-wp-setup binary"
 npm link
 
-# initialize default npm
+echo "ℹ︎ Initialize default npm"
 cd ~
 mkdir cypress-test && cd cypress-test
-npm init -y
+npm init -y --silent
 
-# setup cypress suite
+echo "ℹ︎ Running cypress setup script"
 cypress-wp-setup
 
+echo "ℹ︎ Setting WordPress version"
 ./tests/bin/set-core-version.js $WORDPRESS_VERSION
 
-# start WordPress environment
-npm run env:start
+echo "ℹ︎ Create a dummy plugin"
+cat <<EOT >> dummy.php
+<?php
+/**
+ * Plugin Name: Dummy plugin
+ */
+add_action( 'init', '__return_false' );
+EOT
 
-# perform cypress test
+echo "ℹ︎ Starting WordPress environment"
+npm run env:start --silent
+
+echo "ℹ︎ Running Cypress test"
 npm run cypress:run
