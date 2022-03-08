@@ -1,5 +1,9 @@
 #/bin/bash
 
+if [[ -z "$GITHUB_WORKSPACE" ]]; then
+	GITHUB_WORKSPACE = '~'
+fi
+
 if [[ -z "$WORDPRESS_VERSION" ]]; then
 	WORDPRESS_VERSION = 'latest'
 fi
@@ -11,8 +15,10 @@ npm install --silent
 echo "ℹ︎ Setting up cypress-wp-setup binary"
 npm link
 
+echo "ℹ︎ Building test project in $GITHUB_WORKSPACE/cypress-test"
+cd $GITHUB_WORKSPACE
+
 echo "ℹ︎ Initialize default npm"
-cd ~
 mkdir cypress-test && cd cypress-test
 npm init -y --silent
 
