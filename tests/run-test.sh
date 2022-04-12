@@ -1,5 +1,7 @@
 #/bin/bash
 
+set -e
+
 if [[ -z "$GITHUB_WORKSPACE" ]]; then
 	GITHUB_WORKSPACE = '~'
 fi
