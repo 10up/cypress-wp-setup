@@ -19,7 +19,7 @@ The script will do everything required: install dependencies, add scripts to you
 
 Now you are able to manage wp-env and run Cypress tests.
 
-## Commands
+## Command-line tools
 
 ### WordPress environment
 
@@ -56,7 +56,22 @@ npm run cypress:run
 npm run cypress:open
 ```
 
+## Cypress commands
+
 The boilerplate includes a single basic example test.
+
+The setup includes [Cypress WP Utils](https://10up.github.io/cypress-wp-utils/) library with a set of Cypress commands designed to write tests for WordPress.
+
+```javascript
+cy.login();
+
+cy.activatePlugin("my-plugin");
+
+cy.createPost({
+	"Post Title",
+	content: 'Test Content',
+});
+```
 
 ## GitHub Actions workflow
 
