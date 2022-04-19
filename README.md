@@ -1,8 +1,12 @@
-# cypress-wp-setup
+# Cypress Setup for WordPress
 
-NPM package to set up boilerplate for Cypress testing.
+> NPM package to set up boilerplate for Cypress testing.
 
-Usage:
+[![Support Level](https://img.shields.io/badge/support-beta-blueviolet.svg)](#support-level)
+
+## Usage
+
+The script will do everything required: install dependencies, add scripts to your package.json and create some files required to run [Cypress](https://www.cypress.io/) and [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
 
 ```bash
 # Go to your project folder
@@ -15,8 +19,6 @@ npm init
 npx github:10up/cypress-wp-setup
 ```
 
-The script will do everything required: install dependencies, add scripts to your package.json and create some files required to run [Cypress](https://www.cypress.io/) and [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
-
 Now you are able to manage wp-env and run Cypress tests.
 
 ## Commands
@@ -24,11 +26,13 @@ Now you are able to manage wp-env and run Cypress tests.
 ### WordPress environment
 
 Always use this command to start the environment in GitHub Actions because it will apply the fix to make permalinks working.
+
 ```bash
 npm run env:start
 ```
 
 This is a shortcut to [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/):
+
 ```bash
 npm run env
 ```
@@ -60,7 +64,7 @@ The boilerplate includes a single basic example test.
 
 ## GitHub Actions workflow
 
-The distribution includes the config for GitHub Actions in `.github/workflows/cypress.yml`. It supposed to install dependencies, run wp-env and perform tests.
+The distribution includes the config for GitHub Actions in `.github/workflows/cypress.yml`. It will install dependencies, run wp-env, and perform tests.
 
 You can specify WordPress versions to test against in the matrix:
 
@@ -83,3 +87,11 @@ The job includes 2 optional steps, you can update them and make required (removi
   run: npm run build
   continue-on-error: true
 ```
+
+## Support Level
+
+**Beta:** This project is quite new and we're not sure what our ongoing support level for this will be. Bug reports, feature requests, questions, and pull requests are welcome. If you like this project please let us know, but be cautious using this in a Production environment!
+
+## Like what you see?
+
+[![Work with us](https://10up.com/uploads/2016/10/10up-Github-Banner.png)](http://10up.com/contact/)
