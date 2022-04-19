@@ -4,7 +4,7 @@
   "description": "Set up Cypress tests for WordPress",
   "main": "index.js",
   "author": "10up <opensource@10up.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bin": {
     "cypress-wp-setup": "./index.js"
   },
