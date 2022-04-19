@@ -2,7 +2,7 @@
 
 > NPM package to set up boilerplate for Cypress testing.
 
-[![Support Level](https://img.shields.io/badge/support-beta-blueviolet.svg)](#support-level)
+[![Support Level](https://img.shields.io/badge/support-beta-blueviolet.svg)](#support-level) [![License](https://img.shields.io/github/license/10up/cypress-wp-setup.svg)](https://github.com/10up/cypress-wp-setup/blob/develop/LICENSE.md)
 
 ## Usage
 
