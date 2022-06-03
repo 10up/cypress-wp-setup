@@ -88,7 +88,7 @@ strategy:
   matrix:
     core:
       - {name: 'WP latest', version: 'latest'}
-      - {name: 'WP minimum', version: 'WordPress/WordPress#4.9'}
+      - {name: 'WP minimum', version: 'WordPress/WordPress#5.2'}
       - {name: 'WP trunk', version: 'WordPress/WordPress#master'}
 ```
 
