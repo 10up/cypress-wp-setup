@@ -72,7 +72,7 @@ cy.login();
 cy.activatePlugin("my-plugin");
 
 cy.createPost({
-	"Post Title",
+	title: "Post Title",
 	content: 'Test Content',
 });
 ```
