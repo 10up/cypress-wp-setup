@@ -23,7 +23,7 @@ try {
 
 try {
   execSync(
-    "npm install --save-dev cypress @wordpress/env 10up/cypress-wp-utils#build",
+    "npm install --save-dev cypress@9 @wordpress/env 10up/cypress-wp-utils#build",
     { stdio: "inherit" }
   );
 } catch (e) {
