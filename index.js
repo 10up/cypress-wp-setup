@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const fs = require("fs-extra");
-const npm = require("npm");
+const { execSync } = require("child_process");
 const npmAddScript = require("npm-add-script");
 
 const destPath = process.cwd();
@@ -21,18 +21,15 @@ try {
   process.exit(1);
 }
 
-// Install Cypress and wp-env.
-npm.load({ "save-dev": true }, (err) => {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-  }
-  npm.commands.install([
-    "cypress",
-    "@wordpress/env",
-    "10up/cypress-wp-utils#build",
-  ]);
-});
+try {
+  execSync(
+    "npm install --save-dev cypress@9 @wordpress/env 10up/cypress-wp-utils#build",
+    { stdio: "inherit" }
+  );
+} catch (e) {
+  console.error(e);
+  process.exit(1);
+}
 
 const scripts = {
   "cypress:open": "cypress open --config-file tests/cypress/config.json",
