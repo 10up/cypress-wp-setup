@@ -23,7 +23,7 @@ try {
 
 try {
   execSync(
-    "npm install --save-dev cypress@9 @wordpress/env 10up/cypress-wp-utils#build",
+    "npm install --save-dev cypress@10 @wordpress/env 10up/cypress-wp-utils#build",
     { stdio: "inherit" }
   );
 } catch (e) {
@@ -32,8 +32,8 @@ try {
 }
 
 const scripts = {
-  "cypress:open": "cypress open --config-file tests/cypress/config.json",
-  "cypress:run": "cypress run --config-file tests/cypress/config.json",
+  "cypress:open": "cypress open --config-file tests/cypress/config.js",
+  "cypress:run": "cypress run --config-file tests/cypress/config.js",
   "env": "wp-env",
   "env:start": "wp-env start",
   "env:stop": "wp-env stop",
