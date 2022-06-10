@@ -1,4 +1,5 @@
 const { defineConfig } = require('cypress');
+const { readConfig }   = require('@wordpress/env/lib/config');
 
 module.exports = defineConfig({
   fixturesFolder: 'tests/cypress/fixtures',
@@ -7,12 +8,31 @@ module.exports = defineConfig({
   downloadsFolder: 'tests/cypress/downloads',
   video: false,
   e2e: {
-    // We've imported your old cypress plugins here.
-    // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
-      return require('./plugins/index.js')(on, config)
+      return setupBaseUrl(on, config);
     },
     specPattern: 'tests/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: 'tests/cypress/support/index.js'
+    supportFile: 'tests/cypress/support/e2e.js'
   },
 });
+
+/**
+ * Setup WP URL as baseUrl in Cypress config.
+ * 
+ * @param {Function} on    function that used to register listeners on various events.
+ * @param {object} config  Cypress Config object.
+ * @returns config Updated Cypress Config object.
+ */
+const setupBaseUrl = async (on, config) => {
+  const wpEnvConfig = await readConfig('wp-env');
+
+  if (wpEnvConfig) {
+    const port = wpEnvConfig.env.tests.port || null;
+
+    if (port) {
+      config.baseUrl = wpEnvConfig.env.tests.config.WP_TESTS_DOMAIN;
+    }
+  }
+
+  return config;
+};
