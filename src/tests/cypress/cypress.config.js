@@ -11,7 +11,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       return setupBaseUrl(on, config);
     },
-    specPattern: 'tests/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: 'tests/cypress/e2e/**/*.test.{js,jsx,ts,tsx}',
     supportFile: 'tests/cypress/support/e2e.js'
   },
 });
