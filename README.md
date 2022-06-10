@@ -72,7 +72,7 @@ cy.login();
 cy.activatePlugin("my-plugin");
 
 cy.createPost({
-	"Post Title",
+	title: "Post Title",
 	content: 'Test Content',
 });
 ```
@@ -88,7 +88,7 @@ strategy:
   matrix:
     core:
       - {name: 'WP latest', version: 'latest'}
-      - {name: 'WP minimum', version: 'WordPress/WordPress#4.9'}
+      - {name: 'WP minimum', version: 'WordPress/WordPress#5.2'}
       - {name: 'WP trunk', version: 'WordPress/WordPress#master'}
 ```
 
