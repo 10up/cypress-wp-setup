@@ -32,7 +32,7 @@ try {
 }
 
 const scripts = {
-  "cypress:open": "cypress open --config-file tests/cypress/config.js",
+  "cypress:open": "cypress open --config-file tests/cypress/config.js --e2e --browser chrome",
   "cypress:run": "cypress run --config-file tests/cypress/config.js",
   "env": "wp-env",
   "env:start": "wp-env start",

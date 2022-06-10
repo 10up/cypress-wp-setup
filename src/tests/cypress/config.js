@@ -9,7 +9,7 @@ module.exports = defineConfig({
   video: false,
   e2e: {
     setupNodeEvents(on, config) {
-      return setupBaseUrl(on, config);
+      return setBaseUrl(on, config);
     },
     specPattern: 'tests/cypress/e2e/**/*.test.{js,jsx,ts,tsx}',
     supportFile: 'tests/cypress/support/e2e.js'
@@ -17,13 +17,13 @@ module.exports = defineConfig({
 });
 
 /**
- * Setup WP URL as baseUrl in Cypress config.
+ * Set WP URL as baseUrl in Cypress config.
  * 
  * @param {Function} on    function that used to register listeners on various events.
  * @param {object} config  Cypress Config object.
  * @returns config Updated Cypress Config object.
  */
-const setupBaseUrl = async (on, config) => {
+const setBaseUrl = async (on, config) => {
   const wpEnvConfig = await readConfig('wp-env');
 
   if (wpEnvConfig) {
