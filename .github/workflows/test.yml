@@ -18,7 +18,7 @@ jobs:
       matrix:
         core:
           - { name: "WP latest", version: "latest" }
-          - { name: "WP 5.2", version: "5.2" }
+          - { name: "WP 5.7", version: "5.7" }
           - { name: "WP trunk", version: "master" }
 
     steps:
