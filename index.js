@@ -37,6 +37,7 @@ const scripts = {
   "env": "wp-env",
   "env:start": "wp-env start",
   "env:stop": "wp-env stop",
+  "env:destroy": "wp-env destroy",
   "postenv:start": "./tests/bin/initialize.sh",
 };
 
