@@ -2,6 +2,7 @@ const { defineConfig } = require('cypress');
 const { readConfig }   = require('@wordpress/env/lib/config');
 
 module.exports = defineConfig({
+  chromeWebSecurity: false,
   fixturesFolder: 'tests/cypress/fixtures',
   screenshotsFolder: 'tests/cypress/screenshots',
   videosFolder: 'tests/cypress/videos',
@@ -18,7 +19,7 @@ module.exports = defineConfig({
 
 /**
  * Set WP URL as baseUrl in Cypress config.
- * 
+ *
  * @param {Function} on    function that used to register listeners on various events.
  * @param {object} config  Cypress Config object.
  * @returns config Updated Cypress Config object.
