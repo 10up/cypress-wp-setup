@@ -24,4 +24,25 @@ For more on how 10up writes and manages code, check out our [10up Engineering Be
 
 ## Workflow
 
-The `develop` branch is the development branch which means it contains the next version to be released.  `trunk` contains the latest released version as reflected in the WordPress.org plugin repository.  Always work on the `develop` branch and open up PRs against `develop`.
+The `develop` branch is the development branch which means it contains the next version to be released.  `trunk` contains the latest released version.  Always work on the `develop` branch and open up PRs against `develop`.
+
+## Release instructions
+
+1. Branch: Starting from `develop`, cut a release branch named `release/X.Y.Z` for your changes.
+1. Version bump: Bump the version number in `package.json` and `package-lock.json` if it does not already reflect the version being released.
+1. Changelog: Add/update the changelog in `CHANGELOG.md`.
+1. Props: update `CREDITS.md` file with any new contributors, confirm maintainers are accurate.
+1. New files: Check to be sure any new files/paths that are unnecessary in the production version are included in `.gitattributes`.
+1. Readme updates: Make any other readme changes as necessary.
+1. Merge: Make a non-fast-forward merge from your release branch to `develop` (or merge the pull request), then do the same for `develop` into `trunk`, ensuring you pull the most recent changes into `develop` first (`git checkout develop && git pull origin develop && git checkout trunk && git pull origin trunk && git merge --no-ff develop`). `trunk` contains the stable development version.
+1. Push: Push your trunk branch to GitHub (e.g. `git push origin trunk`).
+1. [Compare](https://github.com/10up/cypress-wp-setup/compare/trunk...develop) `trunk` to `develop` to ensure no additional changes were missed.
+1. Release: Create a [new release](https://github.com/10up/cypress-wp-setup/releases/new), naming the tag and the release with the new version number, and targeting the `trunk` branch.  Paste the changelog from `CHANGELOG.md` into the body of the release and include a link to the closed issues on the [milestone](https://github.com/10up/cypress-wp-setup/milestone/#?closed=1).
+1. Close milestone: Edit the [milestone](https://github.com/10up/cypress-wp-setup/milestone/#) with release date (in the `Due date (optional)` field) and link to GitHub release (in the `Description` field), then close the milestone.
+1. Punt incomplete items: If any open issues or PRs which were milestoned for `X.Y.Z` do not make it into the release, update their milestone to `X.Y.Z+1`, `X.Y+1.0`, `X+1.0.0` or `Future Release`.
+
+### What to do if things go wrong
+
+If you run into issues during the release process and things have NOT fully deployed to npm / whatever external-to-GitHub location that we might be publishing to, then the best thing to do will be to delete any Tag (e.g., <https://github.com/10up/cypress-wp-setup/releases/tag/TAGNAME>) or Release that's been created, research what's wrong, and once things are resolved work on re-tagging and re-releasing on GitHub and publishing externally where needed.
+
+If you run into issues during the release process and things HAVE deployed to npm / whatever external-to-GitHub location that we might be publishing to, then the best thing to do will be to research what's wrong and once things are resolved work on a patch release and tag on GitHub and publishing externally where needed.  At the top of the changelog / release notes it's best to note that its a hotfix to resolve whatever issues were found after the previous release.
