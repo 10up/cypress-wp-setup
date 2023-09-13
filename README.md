@@ -44,6 +44,7 @@ npm run env
 ```
 
 `<version>` might be:
+
 - `latest` to use current WordPress release
 - `master` to use nightly build
 - `5.9` to specify a version
@@ -72,8 +73,8 @@ cy.login();
 cy.activatePlugin("my-plugin");
 
 cy.createPost({
-	title: "Post Title",
-	content: 'Test Content',
+  title: "Post Title",
+  content: 'Test Content',
 });
 ```
 
