@@ -1,0 +1,43 @@
+name: Test Setup
+
+on:
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+      - trunk
+
+jobs:
+  test:
+    name: ${{ matrix.core.name }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        core:
+          - { name: "WP latest", version: "latest" }
+          - { name: "WP 5.7", version: "5.7" }
+          - { name: "WP trunk", version: "master" }
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run test
+        run: ./tests/run-test.sh
+        env:
+          WORDPRESS_VERSION: ${{ matrix.core.version }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+
+      - name: Make artifacts available
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-artifact
+          retention-days: 2
+          path: |
+            ${{ github.workspace }}/cypress-test/tests/cypress/screenshots/
+            ${{ github.workspace }}/cypress-test/tests/cypress/videos/
+            ${{ github.workspace }}/cypress-test/tests/cypress/logs/
